@@ -4,6 +4,8 @@ library(GGally)
 library(tcltk)
 library(tseries)
 library(moments)
+library(vars)
+library(aTSA)
 data.td <- read.csv("./Td4.csv")
 
 n <- length(data.td$Y)
@@ -64,13 +66,13 @@ cat("--------------- TESTS D'AUTOCORRELATION ----------------")
 dwtest(Model)
 
 ## Ljung-Box
-lag <- 2
-Box_test <- Box.test(resid(Model), lag=lag, type="Ljung")
-chi_box <- qchisq(0.95,lag)
+box_lag <- 2
+Box_test <- Box.test(resid(Model), lag=box_lag, type="Ljung")
+chi_box <- qchisq(0.95,box_lag)
 Qstat <- Box_test$statistic
 
 print(Box_test)
-cat("Chi2(" , lag , ") = " , chi_box, ", Qstat =", Qstat,"\n")
+cat("Chi2(" , box_lag , ") = " , chi_box, ", Qstat =", Qstat,"\n")
 
 if(Qstat<chi_box) {
     cat("Il y a non autocorrélation des résidus d'ordre 1 à 2 \n")
@@ -111,31 +113,35 @@ if(abs((kurt-3)/sqrt(n/24))<qnorm(0.975,0,1)){
 }
 
 ## Homoscéasticité
-LM <- n*summary$r.squared
-print(LM)
-
+cat("-------------- TESTS D'HOMOSCEDASTICITE --------------\n")
 # ARCH
 
-# Goldfeld 
-gqtest(Model,fraction=67)
 
+# Goldfeld 
 # hardcoded goldfeld
-gqdata_1 <- data.td[(1:93),(2:5)]
-gqdata_2 <- data.td[(159:252),(2:5)]
+m <- 66
+data_goldfeld <- data.td[order(data.td$Y),]
+
+gqdata_1 <- data_goldfeld[(1:93),(2:5)]
+gqdata_2 <- data_goldfeld[(159:252),(2:5)]
 
 gq_model_1 <- lm(Y~X1+X2+X3 , data=gqdata_1)
 gq_model_2 <- lm(Y~X1+X2+X3 , data=gqdata_2)
 
 gq_stat <- sum(resid(gq_model_2)^2)/sum(resid(gq_model_1)^2)
 
-print(gq_stat)
+cat("SCR2/SCR1=",sum(resid(gq_model_2)^2),"/",sum(resid(gq_model_1)^2),"=", gq_stat,"\n")
+cat("ddl1 =", (n-m-8)/2, " ddl2=",(n-m-8)/2," F=", qf(0.95,(n-m-8)/2,(n-m-8)/2),"\n")
 
+# hardcoded white
+white_model <- lm(Model$resid ~ X1 + X1^2 +X2 +X2^2+X3+X3^2,data=data.td)
+summary(white_model)
 
 X11()
 plot(fitted(Model),resid(Model),main="Distribution des résidus")
 abline(h=0, lty=2)
 X11()
-acf(resid(Model),lag.max=lag)
+acf(resid(Model),lag.max=box_lag)
 X11()
 ggpairs(data.td[2:5])
 X11()
