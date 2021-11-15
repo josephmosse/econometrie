@@ -1,0 +1,203 @@
+\documentclass[A4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[french]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{upgreek}
+\usepackage{xcolor}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+\section{Paramètres du modèle}
+\subsection{Intervalle de confiance} 
+Intervalle de confiance des $\upbeta_i$ : 
+\begin{equation*}
+\begin{split}
+		1-\upalpha &= Prob\left[ t_{\upalpha/2}(n-k) \le \frac{\hat{\upbeta}_i - \upbeta_i}{\hat{\upsigma}_{\hat{\upbeta}_i}} \le  t_{1-\upalpha/2}(n-k)\right] \\
+		IC^{\upbeta_i}_{1-\upalpha} &= \left[ \hat{\upbeta}_i - t_{1-\upalpha/2}(n-k) \cdot \hat{\upsigma}_{\hat{\upbeta}_i}; \hat{\upbeta}_i - t_{\upalpha/2}(n-k) \cdot \hat{\upsigma}_{\hat{\upbeta}_i}\right]
+\end{split}
+\end{equation*}
+Intervalle de confiance des $\upbeta_i$ avec la terminologie Eviews :
+\begin{equation*}
+\begin{split}
+		IC^{\upbeta_i}_{1-\upalpha} &= \left[ \text{Coefficient}_i- t_{1-\upalpha/2}(n-k) \cdot \text{Std. Error}_i;\text{Coefficient}_i- t_{\upalpha/2}(n-k) \cdot \text{Std. Error}_i\right] 
+\end{split}
+\end{equation*}
+Application : \\
+Ici $n-k = 248$. Le degrès de liberté du la loi de Student est $\upnu = 248 > 30$, celle ci converge donc vers la loi normale centrée réduite $T(248) \leadsto N(0,1)$. \\
+D'ou : $t_{.975}(248) =  U_{.975} = 1.96$ 
+\begin{align*}
+		IC^{\upbeta_0}_{95\%} &= {\color{red}\left[ 40.0587 ; 70.5573 \right]} & &= \left[ 55.3080 - 1.96* 7.8026 ; 55.3080 + 1.96* 7.8026 \right]\\
+		IC^{\upbeta_1}_{95\%} &= {\color{red}\left[ 0.0481 ; 0.05360 \right]} & &= \left[ 0.05084 - 1.96 * 0.0014 ; 0.05084 + 1.96 * 0.0014\right]\\
+		IC^{\upbeta_2}_{95\%} &= {\color{red}\left[ 0.0023 ; 0.0024 \right]} & &= \left[ 0.0024 - 1.96 * 0 ; 0.0024 + 1.96 * 0\right]\\
+		IC^{\upbeta_3}_{95\%} &= {\color{red}\left[ 0.0182 ; 0.02330\right]} & &= \left[ 0.02072 - 1.96 * 0.0013;0.02072 + 1.96 * 0.0013\right]  
+\end{align*}
+\newpage
+\subsection{Test de signification}
+Testons a présent la significativité des paramètres \\
+\textbf{Spécification du test :} \\
+$\text{H}_0 : \upbeta_i = 0$ Le paramètre n'est pas significatif\\
+$\text{H}_1 : \upbeta_i \neq 0$ Le paramètre est significatif \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		t_{c_i} = \frac{\hat{\upbeta}_i}{\hat{\upsigma}_{\upbeta_i}}
+\end{equation*}
+\textbf{RDD : } \\
+Si $\left| t_{c_i} \right|  < t_{.95}(n-k)$ On accepte $H_0$ au risque de $\upalpha$\\
+Si $\left| t_{c_i} \right|  \geq t_{.95}(n-k)$ On rejette $H_0$ au risque de $\upalpha$		
+
+\textbf{Application :} \\
+On peut directement lire le student calculé sur Eviews : $t_c = \text{t-Statistic}$. Avec $t_{.975}(248) =  U_{.975} = 1.96$ 
+\begin{align*}
+		t_{c_0} &= 7.1088 & t_{c_1} &= 35.9897 & t_{c_2} &= 64.4521 & t_{c_3} &= 16.0143
+\end{align*}
+\textbf{Décision : } \\
+$\left| t_{c_i} < t_{.975}(248) \right| \; \forall i \in [0;3]$ \; On rejette H$_0$ au risque de $\upalpha = 5\%$. Tous les paramètres estimés sont significatifs.
+
+\newpage
+\section{Analyse de la variance}
+L'équation de la variance est telle que : 
+\begin{equation*}
+\begin{split}
+		\sum_t \left( Y_t - \overline{Y}\right)^2 &= \sum_t \left( \hat{Y} - \overline{Y} \right)^2 + \sum_t e_t^2 \\
+		SCT &= SCE + SCR
+\end{split}
+\end{equation*}
+\subsection{Table d'ANOVA}
+\begin{tabular}{|c|l|l|c}
+\hline
+\begin{tabular}[c]{@{}c@{}}Source\\ de variation\end{tabular} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Somme\\ des carrés\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Degré\\ de liberté\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Carrés\\ Moyens\end{tabular}} \\ \hline
+X                                                             & $SCE = \sum_t (\hat{Y}_t - \overline{Y})^2$                                     & $k-1 = 3$                                                                       & \multicolumn{1}{c|}{$SCE/3$}                                                 \\ \hline
+Résidu                                                        & $SCR = \sum_t e^2_t$                                                            & $n-k = 248$                                                                     & \multicolumn{1}{c|}{$SCR/248$}                                               \\ \hline
+Total                                                         & $SCT = \sum_t(Y_t - \overline{Y})^2$                                            & $n-1 = 251$                                                                     & \multicolumn{1}{l}{}                                                         \\ \cline{1-3}
+\end{tabular}
+\subsection{Test de signification du coefficient de détermination}
+
+\newpage
+\section{Tests d'autocorrélation}
+\subsection{Test de Durbin Watson}
+On pose : 
+\begin{equation*}
+    \varepsilon_t = \uprho \varepsilon_{t+1} + \eta_t \qquad \eta_t \sim \text{BB}
+\end{equation*}
+\textbf{Spécification du test :} \\
+H$_0 : \uprho = 0$ Abscence d'autocorrélation d'odre 1 \\
+H$_1 : \uprho \neq 0$ Autocorrélation d'odre 1 \\
+\textbf{Statistique de test :}
+\begin{equation*}
+    \text{DW} = \frac{\sum\left( \varepsilon_{t+1} - \varepsilon_t \right)^2 }{\sum e_t^2}
+\end{equation*}
+\textbf{RDD : }
+\begin{table}[h!]
+\begin{tabular}{ccccc}
+\hline
+\multicolumn{1}{|c|}{$0 ; d_1$} & \multicolumn{1}{c|}{$d_1 ; d_2$}& \multicolumn{1}{c|}{$2$} & \multicolumn{1}{c|}{$4-d_2 ; 4-d_1$} & \multicolumn{1}{c|}{$4-d_1 ; 4$}                                                                      \\ \hline
+\multicolumn{1}{|c|}{\begin{tabular}[c]{@{}c@{}}autocorrelation \\ positive \\ d'ordre 1\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Zone de doute\\ $\leftarrow$\end{tabular}} & \multicolumn{1}{c|}{Abscence d'autocorrelation (H0 vrai)} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}Zone de doute\\ $\rightarrow$\end{tabular}} & \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}autocorrelation \\ négative\\ d'ordre 1\end{tabular}} \\ \hline
+\end{tabular}
+\end{table} \\
+\textbf{Application :}\\
+\begin{equation*}
+		\text{DW} = 1.2092 \qquad d_1 = 1.00 \; ; \; d_2 = 1.68
+\end{equation*}
+\textbf{Décision :}\\
+DW$\in [d_1;d_1]$ Zone de doute
+
+\newpage
+\subsection{Test d'autocorrélation des résidus d'ordre supérieur a 1}
+\textbf{Modèle :}
+\begin{equation*}
+		\varepsilon_t = \phi_1 \varepsilon_{t-1} + \phi_2 \varepsilon_{t-2} + \ldots + \phi_k \varepsilon_{t-k} + \eta_t \qquad \eta_t \sim \text{BB}
+\end{equation*}
+\textbf{Spécification du test: } \\
+H$_0 : \phi_1 = \phi_2 = \ldots = \phi_k = 0$ : Non autocorrélation des résidus d'ordre $1$ à $k$. \\
+H$_1$ : Au moins un $\phi_i \neq 0$ : Autocorrélation d'ordre $i$ \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		\text{Q}_{\text{stat}} = n(n+2) \sum_{k=1}^K \frac{r_k^2}{n-k} \sim \upchi^2(K)
+\end{equation*}
+Où $K$ est le nombre de retards \\
+ \textbf{RDD}\\
+Si $\text{Q}_{\text{stat}} < \upchi^2_{.95}(K)$ On accepte $H_0$ au risque de $\upalpha = 5\%$\\
+Si $\text{Q}_{\text{stat}} \geq \upchi^2_{.95}(K)$ On rejette $H_0$ au risque de $\upalpha = 5\%$ \\
+\textbf{Application :} \\
+Grace au corrélograme (ACF) on obtient les $r_k$. Avec $K=2$ retards on a : 
+\begin{equation}
+		\text{Q}_{\text{stat}} = 252 * (252+2) \left[ \frac{0.386^2}{252-1} + \frac{0.247^2}{252-2} \right] = 53.521
+\end{equation}
+\textbf{Décision : }\\
+$\text{Q}_{\text{stat}} > \upchi^2(2) = 5.991$ On rejette H$_0$ au risque de $5\%$, il y a autocorrélation des résidus a l'ordre 2.
+\newpage
+\section{Tests de normalité}
+\subsection{Test de Jarque-Bera}
+\textbf{Spécification du test :}\\
+H$_0$ : La distribution des résidus est normale. \\
+H$_1$ : La distribution des résidus est non normale\\
+\textbf{Statistique de test :}
+\begin{equation*}
+	\text{JB} = \frac{n}{6} \text{SKEW} + \frac{n}{24} (\text{KURT} -3)^2 \sim \upchi^2(2)		
+\end{equation*}
+\textbf{RDD :} \\
+Si  $\text{JB} < \upchi^2_{.95}(2)$  On accepte  H$_0$  au risque de  $\upalpha = 5\%$ \\
+Si  $\text{JB} \ge  \upchi^2_{.95}(2)$  On rejette  H$_0$  au risque de  $\upalpha = 5\%$  \\
+\textbf{Décision :} \\
+JB $= 4.2806 < \upchi^2(2) = 5.9915$ On accepte H$_0$ au risque de $\upalpha = 5\%$, il y a distribution normale des résidus.
+\subsection{Tests de de Skewness et Kurtosis}
+\subsubsection{Test de Skewness (symétrie)}
+\textbf{Spécification du test :} \\
+H$_0$ : Symétrie normale \\
+H$_1$ : Symétrie anormale \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		\frac{\upbeta_1^{1/2}}{\sqrt{6/n}}=  \frac{\text{SKEW}}{\sqrt{6/n}} \sim N(0,1)
+\end{equation*}
+\textbf{RDD :} \\
+Si $\left| \frac{\upbeta^{1/2}_1}{\sqrt{6/n}} \right|  < 1.96$ On accepte $H_0$ au risque de $\upalpha = 5\% $\\
+Si $\left| \frac{\upbeta^{1/2}_1}{\sqrt{6/n}} \right|  \geq 1.96$ On rejette $H_0$ au risque de $\upalpha = 5\%$ \\
+\textbf{Application :} SKEW $= -0.2102165$
+\begin{equation*}
+	\frac{\text{SKEW}}{\sqrt{6/n}} = \frac{-0.2102}{\sqrt{6/252}} = -1.3622
+\end{equation*}
+\textbf{Décision :}\\
+$\left| \frac{\upbeta^{1/2}_1}{\sqrt{6/n}} \right| = 1.3622 < 1.96 $ On accepte H$_0$ au risque de  $\upalpha=5\%$, il y a symétrie normale des résidus.
+\newpage
+\subsubsection{Test de Kurtosis (applatissement)}
+\textbf{Spécification du test :} \\
+H$_0$ : Applatissemnt normal \\
+H$_1$ : Exès de kurtosis \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		\frac{\upbeta_2-3}{\sqrt{24/n}}=  \frac{\text{KURT}}{\sqrt{24/n}} \sim N(0,1)
+\end{equation*}
+\textbf{RDD :} \\
+Si $\left| \frac{\upbeta_2}{\sqrt{24/n}} \right|  < 1.96$ On accepte $H_0$ au risque de $\upalpha = 5\% $\\
+Si $\left| \frac{\upbeta_2}{\sqrt{24/n}} \right|  \geq 1.96$ On rejette $H_0$ au risque de $\upalpha = 5\%$ \\
+\textbf{Application :} SKEW $= 2.5195 $
+\begin{equation*}
+	\frac{\text{KURT}}{\sqrt{24/n}} = \frac{2.5195}{\sqrt{24/252}} = -1.557
+\end{equation*}
+\textbf{Décision :}\\
+$\left| \frac{\upbeta_2}{\sqrt{24/n}} \right| = 1.557 < 1.96 $ On accepte H$_0$ au risque de  $\upalpha=5\%$, il y a applatissement normal des résidus.
+
+
+\section{Tests d'homoscédasticité}
+\subsection{Test de ARCH}
+\subsection{Test de Goldfeld-Quandt}
+\subsection{Test de White}
+\subsection{Test de Glejser}
+
+\section{Robustesse du modèle}
+\subsection{Validité du modèle}
+\subsubsection{Test de signification des paramètres}
+\subsection{Test de signification des coefficients de détermination}
+\subsubsection{Test de Durbin Watson}
+\subsection{Stabilité du modèle}
+\subsubsection{Test d'ANACOVA}
+\subsubsection{Test de comparaison des deux coefficients de regression}
+\subsubsection{Test de comparaison de 2 coefficients de correlation}
+
+
+
+\end{document}
