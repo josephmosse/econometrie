@@ -137,7 +137,7 @@ H$_0$ : La distribution des résidus est normale. \\
 H$_1$ : La distribution des résidus est non normale\\
 \textbf{Statistique de test :}
 \begin{equation*}
-	\text{JB} = \frac{n}{6} \text{SKEW}^2 + \frac{n}{24} (\text{KURT} -3)^2 \sim \upchi^2(2)		
+	\text{JB} = \frac{n}{6} \text{SKEW} + \frac{n}{24} (\text{KURT} -3)^2 \sim \upchi^2(2)		
 \end{equation*}
 \textbf{RDD :} \\
 Si  $\text{JB} < \upchi^2_{.95}(2)$  On accepte  H$_0$  au risque de  $\upalpha = 5\%$ \\
@@ -181,13 +181,102 @@ Si $\left| \frac{\upbeta_2}{\sqrt{24/n}} \right|  \geq 1.96$ On rejette $H_0$ au
 \textbf{Décision :}\\
 $\left| \frac{\upbeta_2}{\sqrt{24/n}} \right| = 1.557 < 1.96 $ On accepte H$_0$ au risque de  $\upalpha=5\%$, il y a applatissement normal des résidus.
 
-
+\newpage
 \section{Tests d'homoscédasticité}
 \subsection{Test de ARCH}
+\begin{equation*}
+		\varepsilon^2_t = \upbeta_0 + \upbeta_1 \varepsilon^2_{t-1} + \upbeta_2 \varepsilon^2_{t-2} + \ldots + \upbeta_k \varepsilon^2_{t-k} + \eta_t \qquad \eta_t \sim N(0,\upsigma_n)
+\end{equation*}
+\textbf{Spécification du test :} \\
+H$_0$ : $beta_1 = \upbeta_2 = \ldots = \upbeta_k = 0$ homoscédasticité \\
+H$_1$ : au moins un $\upbeta_i \neq 0$ hétéroscédasticité \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		nR^2 \sim \upchi^2_{1-\upalpha}(k)
+\end{equation*}
+Où $k$ est le nombre de retards \\
+\textbf{RDD :} \\
+Si $nR^2 < \upchi^2_{1-\upalpha}(k)$ On accepte $H_0$ au risque de $\upalpha = 5\%$\\
+Si $nR^2 \geq \upchi^2_{1-\upalpha}(k)$ On rejette $H_0$ au risque de $\upalpha = 5\%$ \\
+\textbf{Application :}
+\begin{equation*}
+	nR^2 = 252 * \quad = \quad \qquad \upchi^2_{.95}(\quad) = \quad 
+\end{equation*}
+\textbf{Décision : }
+$nR^2 > \upchi^2_{.95}$ On accepte H$_0$ au risque de $\upalpha = 5\%$,
+\newpage
 \subsection{Test de Goldfeld-Quandt}
+\textbf{Spécification du test :} \\
+H$_0$ : Homoscédasticité \\
+H$_1$ : Hétéroscédasticité \\
+\textbf{Statistique de test :}
+\begin{equation*}
+	F_c = \frac{\text{SCR}_2}{\text{SCR}_1} \sim F_{1-\upalpha} \left( \frac{n-m-2k}{2} ; \frac{n-m-2k}{2} \right) 
+\end{equation*}
+\textbf{RDD :} \\
+Si $ F_c < F_{1-\upalpha}\left( \frac{n-m-2k}{2} ; \frac{n-m-2k}{2} \right) $ On accepte $H_0$ au risque de $\upalpha$\\
+Si $ F_c \geq F_{1-\upalpha}\left( \frac{n-m-2k}{2} ; \frac{n-m-2k}{2} \right) $ On rejette $H_0$ au risque de $\upalpha$ \\
+Où m est le nombre d'observations omises et k le nombre de paramètres estimés. \\
+\textbf{Application : }\\
+Si pour $n=30$, on supprime $m=8$ observations, alors pour $n=252$ observations, on supprime : $m = \frac{258*8}{30} \approx 66$ observations.\\
+En regressant les deux sous échantillons, on obtient : \\
+$SCR_1 = 6848.016 \text{ et } SCR_2 = 8914.091$  0.7682237 
+\begin{equation*}
+\begin{split}
+	&F_c = \frac{\text{SCR}_2}{\text{SCR}_2} = \frac{8914.091}{6848.016} = 0.7682237 \\ 
+	&F_{.95}(\frac{252-66-8}{2},\frac{252-66-8}{2}) = F_{.95}(89,89) = 1.42 
+\end{split}
+\end{equation*}
+\textbf{Décision : }\\
+$F_c < F_{lu} $ On accepte H$_0$ au risque de $\upalpha = 5\%$, il y a homoscédasticité.
+\newpage
 \subsection{Test de White}
+\begin{equation*}
+		e_t^2 = \upalpha_0 + \upalpha_1 X_t + \upalpha_2 X_t^2 + \eta_t
+\end{equation*}
+\textbf{Spécification du test :} \\
+H$_0$ : $\upalpha_0 = \upalpha_1 =\upalpha_2 = 0$ Homoscédasticité \\
+H$_1$ : Au moins un $\upalpha_i \neq 0 \quad \forall i \in (0,1,2)$ Hétéroscédasticité \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		\text{W} = nR^2 \sim \upchi^2(K)
+\end{equation*}
+Où $K$ est me nombre de paramètres estimés.\\
+\textbf{RDD : }\\
+Si $nR^2 < \upchi^2_{1-\upalpha}(K)$ On accepte $H_0$ au risque de $\upalpha$.\\
+Si $nR^2 \geq \upchi^2_{1-\upalpha}(K)$ On rejette $H_0$ au risque de $\upalpha$.\\
+\textbf{Application : }\\
+En termes non croisés :
+\begin{equation*}
+	\text{W} = 0.1744 * 252 = 43.9468
+\end{equation*}
+En termes croisés :
+\begin{equation*}
+	\text{W} = 0.1835 * 252 = 46.2424
+\end{equation*}
+\textbf{Décision :}\\
+\begin{itemize}	
+	\item On a estimé en termes non croisés $6$ paramètres, donc \\
+	$\upchi^2_{.95}(6)=12.592 < \text{W}$, on rejette H$_0$ au risque de $\upalpha = 5\%$, il y a hétéroscédasticité.
+	\item On a estimé en termes croisés $9$ paramètres, donc \\
+	$\upchi^2_{.95}(9)=16.919 < \text{W}_c$, on rejette H$_0$ au risque de $\upalpha = 5\%$, il y a hétéroscédasticité.
+\end{itemize}
+\newpage
 \subsection{Test de Glejser}
-
+\begin{equation*}
+	|e_t| = a_0 + a_1 +X_{kt}
+\end{equation*}
+Il y a autant de régressions que de variables explicatives\\ 
+\textbf{Spécification du test :}\\
+H$_0 : a_1 = 0$\\
+H$_1 : a_1 \neq 0$\\
+\textbf{Statistique de test :}
+\begin{equation*}
+		t_c = \frac{\hat{a_1}}{\hat{\upsigma}_{\hat{a}_1}} \sim T(n-2)
+\end{equation*}
+\textbf{RDD : } \\
+Si $|t_c|< t_{1-\upalpha/2}$ On accepte $H_0$ au risque de $\upalpha$ (homoscédasticité)\\
+Si $|t_c| \geq t_{1-\upalpha/2}$ On rejette $H_0$ au risque de $\upalpha$ (hétéroscédasticité)\\
 \section{Robustesse du modèle}
 \subsection{Validité du modèle}
 \subsubsection{Test de signification des paramètres}
