@@ -4,9 +4,7 @@ library(GGally)
 library(tcltk)
 library(tseries)
 library(moments)
-library(vars)
-library(aTSA)
-data.td <- read.csv("./Td4.csv")
+data.td <- read.csv("Td4.csv")
 
 n <- length(data.td$Y)
 print(n)
@@ -127,24 +125,33 @@ gqdata_2 <- data_goldfeld[(159:252),(2:5)]
 
 gq_model_1 <- lm(Y~X1+X2+X3 , data=gqdata_1)
 gq_model_2 <- lm(Y~X1+X2+X3 , data=gqdata_2)
+print(summary(gq_model_1))
+print(summary(gq_model_2))
 
 gq_stat <- sum(resid(gq_model_2)^2)/sum(resid(gq_model_1)^2)
 
 cat("SCR2/SCR1=",sum(resid(gq_model_2)^2),"/",sum(resid(gq_model_1)^2),"=", gq_stat,"\n")
-cat("ddl1 =", (n-m-8)/2, " ddl2=",(n-m-8)/2," F=", qf(0.95,(n-m-8)/2,(n-m-8)/2),"\n")
+cat("ddl1 =", (n-m-8)/2, " ddl2=",(n-m-8)/2," F=", qf(0.95,(n-m-6)/2,(n-m-6)/2),"\n")
+
+# Glejser
+for (k in 3:5) {
+    glejser_reg_ <- lm(data.td$Y ~ data[k])
+
+
+}
 
 # hardcoded white
-white_model <- lm(Model$resid ~ X1 + X1^2 +X2 +X2^2+X3+X3^2,data=data.td)
-summary(white_model)
+#white_model <- lm(Model$resid ~ X1 + X1^2 +X2 +X2^2+X3+X3^2,data=data.td)
+#summary(white_model)
 
-X11()
+#X11()
 plot(fitted(Model),resid(Model),main="Distribution des résidus")
 abline(h=0, lty=2)
-X11()
+#X11()
 acf(resid(Model),lag.max=box_lag)
-X11()
+#X11()
 ggpairs(data.td[2:5])
-X11()
+#X11()
 hist(resid(Model),main="Distribution des résidus")
 #while (!is.null(dev.list())) Sys.sleep(1)
 

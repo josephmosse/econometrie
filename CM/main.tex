@@ -44,7 +44,8 @@
 \part{Modèle linéaire simple}
 \section{Introduction}
 \subsection{Définition}
-L'économétrie est le domaine de l'économie qui s'occupe de l'application de la statistique mathématique et des outils de l'inférence statistique à la mesure empirique des relations postulées par la théorie économique
+L'économétrie est le domaine de l'économie qui s'occupe de l'application de la statistique mathématique et 
+des outils de l'inférence statistique à la mesure empirique des relations postulées par la théorie économique.
 \subsection{Prix Nobels}
 1980, Laurence Klein : Modèles macro-économétriques et leurs applications a l'analyse des fluctuations économiques\\
 1989, Trygve Haavelmo : Approche probabiliste et les modèles a équations simultanées\\
@@ -227,23 +228,25 @@ Conditions de premier ordre :
 	&\Leftrightarrow \quad \sum_t X_tY_t - \overline{Y} \sum_t X_t + \hat{\upbeta} \overline{X} \sum_t X_t - \hat{\upbeta} \sum_t X_t^2 = 0\\
 	&\Leftrightarrow \quad \sum_t X_tY_t - \overline{Y} n \overline{X} + \hat{\upbeta} \overline{X} n \overline{X} - \hat{\upbeta} \sum_t X_t^2 = 0 \\
 	&\Leftrightarrow \quad \sum_t X_tY_t - n \overline{X} \overline{Y} - \hat{\upbeta} (\sum_t X_t^2 -n \overline{X^2}) = 0 \\
-	&\Leftrightarrow \quad \hat{\upbeta} = \frac{\frac{1}{n}\sum_t X_tY_t - n \overline{X} \overline{Y}}{\sum_t X_t^2 -n \overline{X^2}} = \frac{n Cov(X,Y)}{n V(X)}
+	&\Leftrightarrow \quad \hat{\upbeta} = \frac{\sum_t X_tY_t - n \overline{X} \overline{Y}}{\sum_t X_t^2 -n \overline{X^2}} = \frac{n Cov(X,Y)}{n V(X)}
 \end{split}
 \end{equation*}
 \end{multicols}
 D'où
-{
-\color{red}
-\begin{align*}
-	\hat{\upbeta} &= \frac{\frac{1}{n}\sum_t X_tY_t - \overline{X} \overline{Y}}{\frac{1}{n}\sum_t X_t^2 - \overline{X^2}} = \frac{Cov(X,Y)}{V(X)} \\
-	\hat{\upalpha} &= \overline{Y} - \hat{\upbeta} \overline{X}
-\end{align*}
-}
+{\color{red}
+\begin{equation*}
+\begin{split}
+    \hat{\upbeta} &= \frac{\frac{1}{n}\sum_t X_tY_t - \overline{X} \overline{Y}}{\frac{1}{n}\sum_t X_t^2 - \overline{X^2}} = \frac{n \cdot Cov(X,Y)}{n \cdot V(X)} \\
+    \hat{\upalpha} &= \overline{Y} - \hat{\upbeta} \overline{X}
+\end{split}
+\end{equation*}}
 Conditions de second ordre : 
-\begin{align*}
+\begin{equation*}
+\begin{split}
 	\pdv[2]{\varphi}{\hat{\upalpha}} &= 2 >0 \\
 	\pdv[2]{\varphi}{\hat{\upbeta}} &= 2 >0
-\end{align*}
+\end{split}
+\end{equation*}
 La fonction est convexe, on a donc bien un minimum 
 \newpage
 La droite de régression passe par le point moyen qui est le centre de gravité (couple \(\bar{X},Y\)).
@@ -259,7 +262,7 @@ On cherche \(\hat{y} \) :
 \end{align*} 
 \begin{align*}
 	\hat{y_t} &= - \bar{Y} + \halpha + \hbeta x_t + \hbeta \bar{X} \\
-	&= - \bar{Y} + \hbeta x_t + \hbeta \bar{X} + (\bar{Y} - \hbeta \bar{X} \\
+	&= - \bar{Y} + \hbeta x_t + \hbeta \bar{X} + (\bar{Y} - \hbeta \bar{X}) \\
 	\hat{y_t} &= \hbeta x_t
 \end{align*}
 
@@ -330,26 +333,26 @@ d'où
 	Si $|t_c| < \studp $ on accepte $H_0$ au risque de $\upalpha$ \\
 	Si $|t_c| \geq \studp $ on rejette $H_0$ au risque de $\upalpha$ \\
 \subsubsection{Test de $\upalpha$}
-	\textbf{Spécification du test} \\
-	\[H_0 : \upalpha = 0 \quad H_1 : \upalpha \neq 0\]
-	\textbf{Statistique de test}
-	\[ \frac{\halpha - \upalpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}} \sim T(n-2) \]
-	\textbf{Intervalle d'acceptation}
-	\begin{align*}
-		1- \upalpha &= Prob\left[\studn < T(n-2) <\studp\right] \\
-		&= Prob\left[\studn<  \frac{\halpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}}<\studp\right] {\color{ForestGreen}\textrm{si }H_0 \textrm{ vrai}}\\
-		&= Prob\left[\studn \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}   < \halpha <\studp \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}} \right]\\
-		&{\color{red} \boxed{= Prob\left[\halpha \in \left[\pm \; \studn \cdot² \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}  \right]\right] \textrm{IA} }}
-	\end{align*}
-	\textbf{RDD } \\
-	Si $\halpha \in $ IA on accepte $H_0$ au risque de première espèce $\upalpha$ \\
-	Si $\halpha \notin $ IA on rejette $H_0$ au risque de première espèce $\upalpha$ 
+\textbf{Spécification du test} \\
+\[H_0 : \upalpha = 0 \quad H_1 : \upalpha \neq 0\]
+\textbf{Statistique de test}
+\[ \frac{\halpha - \upalpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}} \sim T(n-2) \]
+\textbf{Intervalle d'acceptation}
+\begin{align*}
+    1- \upalpha &= Prob\left[\studn < T(n-2) <\studp\right] \\
+    &= Prob\left[\studn<  \frac{\halpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}}<\studp\right] {\color{ForestGreen}\textrm{si }H_0 \textrm{ vrai}}\\
+    &= Prob\left[\studn \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}   < \halpha <\studp \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}} \right]\\
+    &{\color{red} \boxed{= Prob\left[\halpha \in \left[\pm \; \studn \cdot² \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}  \right]\right] \textrm{IA} }}
+\end{align*}
+\textbf{RDD } \\
+Si $\halpha \in $ IA on accepte $H_0$ au risque de première espèce $\upalpha$ \\
+Si $\halpha \notin $ IA on rejette $H_0$ au risque de première espèce $\upalpha$ 
 
-	\textbf{Autre façon de procéder} 
+\textbf{Autre façon de procéder} 
 \[t_c = \frac{\halpha}{\hat{\sigma}_{\hat{\upalpha}}} \sim T(n-2)\]
-	\textbf{RDD}\\
-	Si $|t_c| < \studp $ on accepte $H_0$ au risque de $\upalpha$ \\
-	Si $|t_c| \geq \studp $ on rejette $H_0$ au risque de $\upalpha$ \\
+\textbf{RDD}\\
+Si $|t_c| < \studp $ on accepte $H_0$ au risque de $\upalpha$ \\
+Si $|t_c| \geq \studp $ on rejette $H_0$ au risque de $\upalpha$ \\
 \subsubsection{Test de $\sig$}
 \textbf{Spécification du test} 
 \[H_0 : \sig = \upsigma_0^2 \quad H_1 : \sig \neq \upsigma_0^2\]

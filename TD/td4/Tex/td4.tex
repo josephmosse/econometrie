@@ -200,7 +200,7 @@ Si $nR^2 < \upchi^2_{1-\upalpha}(k)$ On accepte $H_0$ au risque de $\upalpha = 5
 Si $nR^2 \geq \upchi^2_{1-\upalpha}(k)$ On rejette $H_0$ au risque de $\upalpha = 5\%$ \\
 \textbf{Application :}
 \begin{equation*}
-	nR^2 = 252 * \quad = \quad \qquad \upchi^2_{.95}(\quad) = \quad 
+	nR^2 = 252 * 0.0724 = 18.0181 \qquad \upchi^2_{.95}(3) =  
 \end{equation*}
 \textbf{Décision : }
 $nR^2 > \upchi^2_{.95}$ On accepte H$_0$ au risque de $\upalpha = 5\%$,
@@ -272,11 +272,13 @@ H$_0 : a_1 = 0$\\
 H$_1 : a_1 \neq 0$\\
 \textbf{Statistique de test :}
 \begin{equation*}
-		t_c = \frac{\hat{a_1}}{\hat{\upsigma}_{\hat{a}_1}} \sim T(n-2)
-\end{equation*}
+    t_c = \frac{\hat{a_1}}{\hat{\upsigma}_{\hat{a}_1}} \sim T(n-2)
+\end{equation*}i
 \textbf{RDD : } \\
 Si $|t_c|< t_{1-\upalpha/2}$ On accepte $H_0$ au risque de $\upalpha$ (homoscédasticité)\\
 Si $|t_c| \geq t_{1-\upalpha/2}$ On rejette $H_0$ au risque de $\upalpha$ (hétéroscédasticité)\\
+\textbf{Décision :} \\
+
 \section{Robustesse du modèle}
 \subsection{Validité du modèle}
 \subsubsection{Test de signification des paramètres}
