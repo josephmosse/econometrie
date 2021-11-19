@@ -34,6 +34,8 @@
 \newcommand{\xb}{\overline{X}}
 \newcommand{\yb}{\overline{Y}}
 
+\DeclareMathOperator{\argth}{argth}
+
 
 \begin{document}
 
@@ -223,7 +225,7 @@ Conditions de premier ordre :
 \columnbreak
 \begin{equation*}
 \begin{split}
- 	&\Leftrightarrow-2 \sum_t (Y_t - \hat{\alpha} - \hat{\upbeta} X_t) X_t \\
+ 	&\Leftrightarrow-2 \sum_t (Y_t - \hat{\alpha} - \hat{\upbeta} X_t) X_t = 0 \\
 	&\Leftrightarrow \quad \sum_t (Y_t - (\overline{Y} - \hat{\upbeta} \overline{X} - \hat{\upbeta} X_t) X_t = 0 \\
 	&\Leftrightarrow \quad \sum_t X_tY_t - \overline{Y} \sum_t X_t + \hat{\upbeta} \overline{X} \sum_t X_t - \hat{\upbeta} \sum_t X_t^2 = 0\\
 	&\Leftrightarrow \quad \sum_t X_tY_t - \overline{Y} n \overline{X} + \hat{\upbeta} \overline{X} n \overline{X} - \hat{\upbeta} \sum_t X_t^2 = 0 \\
@@ -236,7 +238,7 @@ D'où
 {\color{red}
 \begin{equation*}
 \begin{split}
-    \hat{\upbeta} &= \frac{\frac{1}{n}\sum_t X_tY_t - \overline{X} \overline{Y}}{\frac{1}{n}\sum_t X_t^2 - \overline{X^2}} = \frac{n \cdot Cov(X,Y)}{n \cdot V(X)} \\
+    \hat{\upbeta} &= \frac{\sum_t \left( X_t - \overline{X}\right)\left( Y_t - \overline{Y} \right)}{\sum_t\left( X_t - \overline{X} \right)^2 } = \frac{\sum_t X_tY_t - n\overline{XY}}{\sum_t X_t^2 - n\overline{X^2}} = \frac{n \cdot Cov(X,Y)}{n \cdot V(X)} \\
     \hat{\upalpha} &= \overline{Y} - \hat{\upbeta} \overline{X}
 \end{split}
 \end{equation*}}
@@ -257,9 +259,9 @@ Données centrées :
 	y_t &= Y_t - \bar{Y} &\hat{x_t} = \hat{X_t} - \bar{Y}\\
 \end{align*}
 On cherche \(\hat{y} \) :
-\begin{align*}
-	\hat{Y} = \hat{y_t} + \bar{Y} = \hat{\upalpha} + \hat{\upbeta} X_t  = \hat{\upalpha} + \hat{\upbeta} (x_t + \bar{X})	
-\end{align*} 
+\begin{equation*}
+	\hat{Y}_t = \hat{y_t} + \bar{Y} = \hat{\upalpha} + \hat{\upbeta} X_t  = \hat{\upalpha} + \hat{\upbeta} (x_t + \bar{X})	
+\end{equation*} 
 \begin{align*}
 	\hat{y_t} &= - \bar{Y} + \halpha + \hbeta x_t + \hbeta \bar{X} \\
 	&= - \bar{Y} + \hbeta x_t + \hbeta \bar{X} + (\bar{Y} - \hbeta \bar{X}) \\
@@ -342,7 +344,7 @@ d'où
     1- \upalpha &= Prob\left[\studn < T(n-2) <\studp\right] \\
     &= Prob\left[\studn<  \frac{\halpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}}<\studp\right] {\color{ForestGreen}\textrm{si }H_0 \textrm{ vrai}}\\
     &= Prob\left[\studn \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}   < \halpha <\studp \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}} \right]\\
-    &{\color{red} \boxed{= Prob\left[\halpha \in \left[\pm \; \studn \cdot² \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}  \right]\right] \textrm{IA} }}
+    &{\color{red} \boxed{= Prob\left[\halpha \in \left[\pm \; \studn \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}  \right]\right] \textrm{IA} }}
 \end{align*}
 \textbf{RDD } \\
 Si $\halpha \in $ IA on accepte $H_0$ au risque de première espèce $\upalpha$ \\
@@ -789,7 +791,7 @@ NOTES 08/11/21 \\
 \subsection{Test de Breusch Pagan}
 Si il y a hétérosédasticité, il y a une relation entre l'aléa et les variables explicatives. \\
 \begin{equation*}
-		\varepsilon_{t}² = \delta_{1} + \delta_{2} X_{2t} + \ldots + \delta_{k} X_{kt} + \nu_{t}
+		\varepsilon_{t}^2 = \delta_{1} + \delta_{2} X_{2t} + \ldots + \delta_{k} X_{kt} + \nu_{t}
 \end{equation*}
 \textbf{Spécification du test :}
 \begin{equation*}
@@ -924,7 +926,7 @@ Facteur d'inflation de la variance
 \begin{equation*}
     \text{VIF}_i = \frac{1}{1-R_i^2}
 \end{equation*}
-$R_i²$ : coefficient de détermination multiple entre une variable $X_i$ et les autres
+$R_i^2$ : coefficient de détermination multiple entre une variable $X_i$ et les autres
 \begin{equation*}
     \begin{split}
         \text{VIF}_1 &= \frac{1}{1-R_1^2} \qquad R_1^2 \rightarrow X_2 \text{ et } X_3,X_4 \\
@@ -936,6 +938,110 @@ VIF$\rightarrow + \infty$ Cela veut dire qu'il y a de la colinéarité entre $X_
 autres variables.
 \subsubsection{Etude des valeurs propres de la matrice des coefficients de correlation
 linéaire simple $\tilde{R}$}
+Pour réaliser le test sur les valeurs propres, il suffit de calculer les valeurs propres de la matrice des coefficients de corrélation (linéaire entre les variables explicatives).
+\begin{equation*}
+		\left| \tilde{R} - \uplambda \text{I} \right| = 0 \to \uplambda_i
+\end{equation*}
+Il revient par la suite de comparer les valeurs propres. Si l'on a un écart relativement important entre les valeurs propres alors il y a colinérité dans le modèle. A l'inverse, si les valeurs
+propres sont identiques, il y a abscence de colinéarité. Exemple :
+\begin{equation*}
+\begin{split}
+		\uplambda_1 = 0.2 &; \uplambda_2 = 1.8 \Rightarrow \text{Colinéarité} \\
+		\uplambda_1 = 0.5 &; \uplambda_2 = 0.6 \Rightarrow \text{Abscence de colinéarité}
+\end{split}
+\end{equation*}
+\subsection{Solutions aux violations des hypothèses de base}
+Dans un modèle linéaire simple, si il y a de l'hétéroscédasticité, autocorrélation, et colinéarité on peut apporter des solutions.
+\begin{itemize}
+		\item \textbf{En cas d'hétéroscédasticité} : Si l'on connait la variable à l'origine de l'hétéroscédasticité on peut corriger en supprimant la variable (ex: diviser par cette variable)
+		\item \textbf{En cas de quasi colinéarité} : On peut utiliser la méthode de la Ridge Trace avec le calcul des estimateurs Ridge.
+			\begin{equation*}
+			\begin{split}
+					\hat{\upbeta} &= \left( X' X \right)^{-1} X'Y \\
+					\hat{\upbeta}' &= \left( X'X + k \text{I} \right)^{-1} X' Y \quad \text{(estimateur Ridge)}
+			\end{split}
+			\end{equation*}
+			Graph Ridge
+		\item \textbf{En cas d'autocorrélation} :
+			\begin{itemize}
+					\item Même méthode que pour l'hétéroscédasticité.
+					\item Méthode des estimateurs de Aiken, (calcul a partir de la matrice des variances covariances) $\tilde{\upbeta} = \left[ X' \Omega^{-1} X \right]^{-1} \left[ X \Omega Y \right]  $
+			\end{itemize}
+\end{itemize}
+\subsection{Robustesse du modèle}
+On dira q'un modèle est robuse lorsqu'il est valide dans des circonstances différentes. On scinde le modèle en deux sous périodes (il faut au préalable qu'il y ait un 
+événement majeur qui change la chronique, par exemple un attentat). \\
+Un modèle est donc dit robuste si quels que soient les sous ensembles constitués à partir d'observations consécutives ( sur la période de $1$ à $n$), les estimateurs du même modèle
+sur chacune des sous périodes sont : 
+\begin{enumerate}
+		\item Valides sur le plan statistique :
+		\begin{itemize}
+			\item Test individuel de significativité (H$_0 : \upbeta_j = 0$)
+			\item Test de validité globale (H$_0 : \uprho^2 = 0$)
+			\item Tests sur les résidus :
+			\begin{itemize}
+				\item Test de normalité
+				\item Test d'autocorrélation
+				\item Test d'hétéroscédasticité
+			\end{itemize}
+		\end{itemize}
+		\item Sont stables (les paramètres ne sont pas significativement différents entre eux)
+\end{enumerate}
+\subsubsection{Test d'ANACOVA}
+SCR$_0$ : Somme des carrés des résidus du modèle sur toute la période.\\
+SCR$_1$ : Somme des carrés des résidus du premier sous ensemble.\\
+SCR$_2$ : Somme des carrés des résidus du second sous ensemble.\\
+\begin{equation*}
+	\text{SCR}_1 + \text{SCR}_2 = \text{SCR}_{\text{a}} \qquad \text{SCR}_0 > \text{SCR}_{\text{a}}
+\end{equation*}
+\textbf{Spécification du test :} \\
+H$_0$ : $\upbeta_j^1 = \upbeta_j^2$ \quad Coefficent de première période = coefficient de seconde période (stabilité) \\
+H$_1$ : $\upbeta_j^1 \neq \upbeta_j^2$  \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		F_c = \frac{\text{SCR}_0 - \text{SCR}_{\text{a}}}{\text{SCR}_{\text{a}}} \cdot \frac{n - 2k}{k} \sim F_{1-\upalpha}(k,n-2k)
+\end{equation*}
+$n$ : Nombre total sur la chronique \\
+$k$ : Nombre totale de paramètres estimés \\
+\textbf{RDD : } \\
+Si $ < F_{1-\upalpha}(k,n-2k)$ On accepte $H_0$ au risque de $\upalpha$ (stabilité)\\
+Si $ \geq F_{1-\upalpha}(k,n-2k)$ On rejette $H_0$ au risque de $\upalpha$ (non stable)
+\subsubsection{Test de comparaison des coefficients de régression}
+\textbf{Spécification du test :} \\
+H$_0 : \upbeta_j^1 = \upbeta_j^2 \quad \Leftrightarrow \quad \upbeta_j^1 - \upbeta_j^2 \quad \Leftrightarrow \quad $ \textbf{$\text{d}_j = 0 $} \\
+H$_1 : \upbeta_j^1 \neq \upbeta_j^2$ \\
+\textbf{Statistique de test :}
+\begin{equation*}
+		t_c = \frac{\hat{\text{d}}_j}{\hat{\upsigma}_{\hat{\text{d}_j}}} = \frac{\hat{\upbeta}_j^1 - \hat{\upbeta}_j^2}{\sqrt{\text{s}^2\left( \hat{\upbeta}_j^2 \right) + \text{s}^2\left( \hat{\upbeta}_j^2 \right) } } \sim T_{1-\upalpha/2}(n_1 + n_2 -2k) = T_{1-\upalpha/2}(n-2k)
+\end{equation*}
+Avec : $\hat{\upsigma}_{\hat{\text{d}}_j}^2 = \text{s}^2 \left[ \hat{\upbeta}_j^1 - \hat{\upbeta}_j^1 \right] = \text{s}^2(\hat{\upbeta}_j^1) + \text{s}^2(\hat{\upbeta}_j^2)$\\
+\textbf{RDD : } \\
+Si $ \left| t_c \right| < T_{1-\upalpha/2}(n-2k)$ On accepte $H_0$ au risque de $\upalpha$\\
+Si $ \left| t_c \right| \geq T_{1-\upalpha/2}(n-2k)$ On rejette $H_0$ au risque de $\upalpha$ 
+\subsubsection{Test de comparaison des coefficients de correlation}
+On teste ici si les coefficients de corrélation sont sensiblement égaux. Un coefficient de corrélation ne suit pas une distribution d'expressions simple autour de son espérance
+mathématique, car la distribution est fortement asymétrique pour des valeurs éloignées de 0.
+\begin{equation*}
+		z = \argth r = \frac{1}{2} \ln \frac{1+r}{1-r}
+\end{equation*}
+$\argth$ : Argument tengent hyperbolique. \\
+Remarque : Ici les hypothèses du test portent sur les valeurs théoriques.
+\begin{align*}
+		z_1 &= \argth r_1 = \frac{1}{2} \ln \frac{1+r_1}{1-r_1} & z_1' &= \argth \uprho_1 = \frac{1}{2} \ln \frac{1+\uprho_1}{1-\uprho_1} \\ 
+		z_2 &= \argth r_2 = \frac{1}{2} \ln \frac{1+r_2}{1-r_2} & z_2' &= \argth \uprho_2 = \frac{1}{2} \ln \frac{1+\uprho_2}{1-\uprho_2} \\
+		\text{d}&=z_1+z_2 & \text{d}'&=\uprho_1 + \uprho_2
+\end{align*}
+\textbf{Spécification du test :} \\
+H$_0$ : $z_1' = z_2' \quad \Leftrightarrow \quad z_1' -z_2' = 0 \quad \Leftrightarrow \quad  \textbf{\text{d}' = 0}$ \\
+H$_1$ :  $z_1' \neq z_2'$  \\
+\textbf{Statistique de test :}
+\begin{equation*}
+	t_c = \frac{\text{d}}{\hat{\upsigma}_{\text{d}}} = \frac{z_1-z_2}{\sqrt{V(z_1) + V(z_2)} } = \frac{\frac{1}{2}\ln \frac{1+r_1}{1-r_1} - \frac{1}{2} \ln \frac{1+r_2}{1-r_2}}{\sqrt{\frac{1}{n_1-3}+ \frac{1}{n_2-3}} } \sim T_{1-\upalpha/2}(n_1+n_2-2k) = T_{1-\upalpha/2}(n-2k) 
+\end{equation*}
+Avec : $V(\text{d}) = V(z_1) + V(z_2)$ où $V(z_i) = \frac{1}{n_i-3}$ \\
+\textbf{RDD : } \\
+Si $ \left| t_c \right| < T_{1-\upalpha/2}(n-2k)$ On accepte $H_0$ au risque de $\upalpha$\\
+Si $ \left| t_c \right| \geq T_{1-\upalpha/2}(n-2k)$ On rejette $H_0$ au risque de $\upalpha$ \\ 
 \part{Bibliographie}
 \begin{itemize}
     \item Bourbonnais - Econométrie - Dunod
