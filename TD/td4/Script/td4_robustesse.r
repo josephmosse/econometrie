@@ -1,5 +1,6 @@
 #TD4
 library(car)
+library(GGally)
 
 data <- read.csv("Td4.csv")
 
@@ -55,14 +56,21 @@ for (i in 1:length(model_0$coef)){
 
 # Comparaison coef correlation
 z_l <- list()
-for (i in 1:3){
-	r_1 <- cor(i,)
-	r_2 <- cor(i)
+for (i in 3:4){
+	for (j in i:4){
+		r_1 <- cor(data_1[,i],data_1[,j])
+		print(r_1)
+}
+	#r_1 <- cor(i,)
+	#r_2 <- cor(i)
 
-	z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
-	z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
+	#z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
+	#z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
 	
-	z_l[[i]] <- z_1 - z_2 
+	#z_l[[i]] <- z_1 - z_2 
 }
 
+X11()
+ggpairs(data_1[2:5])
+while (!is.null(dev.list())) Sys.sleep(1)
 
