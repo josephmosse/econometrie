@@ -1012,9 +1012,9 @@ H$_0 : \upbeta_j^1 = \upbeta_j^2 \quad \Leftrightarrow \quad \upbeta_j^1 - \upbe
 H$_1 : \upbeta_j^1 \neq \upbeta_j^2$ \\
 \textbf{Statistique de test :}
 \begin{equation*}
-		t_c = \frac{\hat{\text{d}}_j}{\hat{\upsigma}_{\hat{\text{d}_j}}} = \frac{\hat{\upbeta}_j^1 - \hat{\upbeta}_j^2}{\sqrt{\text{s}^2\left( \hat{\upbeta}_j^2 \right) + \text{s}^2\left( \hat{\upbeta}_j^2 \right) } } \sim T_{1-\upalpha/2}(n_1 + n_2 -2k) = T_{1-\upalpha/2}(n-2k)
+		t_c = \frac{\hat{\text{d}}_j}{\hat{\upsigma}_{\hat{\text{d}_j}}} = \frac{\hat{\upbeta}_j^1 - \hat{\upbeta}_j^2}{\sqrt{\text{s}^2\left( \hat{\upbeta}_j^1 \right) + \text{s}^2\left( \hat{\upbeta}_j^2 \right) } } \sim T_{1-\upalpha/2}(n_1 + n_2 -2k) = T_{1-\upalpha/2}(n-2k)
 \end{equation*}
-Avec : $\hat{\upsigma}_{\hat{\text{d}}_j}^2 = \text{s}^2 \left[ \hat{\upbeta}_j^1 - \hat{\upbeta}_j^1 \right] = \text{s}^2(\hat{\upbeta}_j^1) + \text{s}^2(\hat{\upbeta}_j^2)$\\
+Avec : $\hat{\upsigma}_{\hat{\text{d}}_j}^2 = \text{s}^2 \left[ \hat{\upbeta}_j^1 - \hat{\upbeta}_j^2 \right] = \text{s}^2(\hat{\upbeta}_j^1) + \text{s}^2(\hat{\upbeta}_j^2)$\\
 \textbf{RDD : } \\
 Si $ \left| t_c \right| < T_{1-\upalpha/2}(n-2k)$ On accepte $H_0$ au risque de $\upalpha$\\
 Si $ \left| t_c \right| \geq T_{1-\upalpha/2}(n-2k)$ On rejette $H_0$ au risque de $\upalpha$ 
