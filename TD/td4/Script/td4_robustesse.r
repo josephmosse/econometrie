@@ -27,13 +27,14 @@ for (i in 1:length(model_list)){
 }
 
 ## Tests d'autocorrélation
-
+cat("Test de Durbin Watson\n")
 for (i in 2:length(model_list)){
 	print(durbinWatsonTest(model_list[[i]]))
 }
 
 ## Stabilité
 # ANACOVA
+cat("Test d'Anacova\n")
 SCR_l <- list()
 for (i in 1:length(model_list)){
 	SCR <- sum(resid(model_list[[i]])^2)
@@ -48,29 +49,46 @@ cat("F_stat = ", F_stat, "F_lu = ", qf(0.95,df1=4,df2=(nobs(model_list[[1]]) - 2
 
 # Comparaison coef regression
 #print(summary(model_0)$coef[,2])
-
+cat("Test de comparaison des coefficients de regression\n")
 for (i in 1:length(model_0$coef)){
 	tc <- (model_1$coef[[i]] - model_2$coef[[i]])/sqrt((summary(model_1)$coef[i,2])^2 + (summary(model_2)$coef[i,2])^2)
 	cat(paste0("tc",i,"="), tc, "\n")
 }
 
 # Comparaison coef correlation
+cat("Test de comparaison des coefficients de correlation\n")
 z_l <- list()
 for (i in 3:4){
-	for (j in i:4){
-		r_1 <- cor(data_1[,i],data_1[,j])
-		print(r_1)
+    for (j in i:4){
+        r_1 <- cor(data_1[,i],data_1[,j+1])
+	r_2 <- cor(data_2[,i],data_2[,j+1])
+        
+        z_1 <- 0.5 * log((1 + r_1)/(1 - r_1))
+        z_2 <- 0.5 * log((1 + r_2)/(1 - r_2))
+        
+        #print(z_1)
+        #print(z_2) 
+        tc <- (z_1 - z_2)/sqrt((1/(n_1 - 3)) + (1/(n_2 - 3))) 
+        cat(paste0("tc_",names(data[i]),names(data[j+1]),"="),tc, "\n")
+    }
 }
-	#r_1 <- cor(i,)
-	#r_2 <- cor(i)
 
-	#z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
-	#z_1 <- 0.5 * ln((1 + r_1)/(1 - r_1))
-	
-	#z_l[[i]] <- z_1 - z_2 
-}
+## Colinearite
+# Test VIF
+cat("Test de VIF\n")
+vif(model_0)
+
+# Test sur les valeurs propres
+cat("Matrice des coefficients de corrélations\n")
+cor(data[3:5])
+cat("Valeurs propres de la matrice des r\n")
+eigen(cor(data[3:5]),symmetric = TRUE, only.values = TRUE)
+
 
 X11()
-ggpairs(data_1[2:5])
+par(bg = 'white')
+ggpairs(data_1[3:5])
+X11()
+ggpairs(data_2[3:5])
 while (!is.null(dev.list())) Sys.sleep(1)
 
