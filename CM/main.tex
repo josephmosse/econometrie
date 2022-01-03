@@ -167,15 +167,13 @@ Tout modèle non linéaire peut se ramener à un modèle linéaire (transformati
 	 Y' &= \upalpha' + \upbeta X & Y' &= \upalpha' + \upbeta X' & Y' &= \upalpha' - \upbeta X'
 \end{align*}
 
-\begin{align*}
+\begin{equation*}
+    \begin{split}
     Y_t = \frac{Y_0}{1 + \upbeta X^t} &\Leftrightarrow \frac{Y_0}{Y_t} - 1 = \upbeta X^t \\
     \ln (\frac{Y_0}{Y_t} - 1) = \ln (\upbeta X^t) &\Leftrightarrow \ln Y_0 - \ln Y_t = \ln \upbeta + t \ln X \\
     Y' &= \upbeta' + t X'
-\end{align*}
-
-
-
-
+    \end{split}
+\end{equation*}
 
 \subsection{Les hypothèses de base du modèle}
 
@@ -255,63 +253,84 @@ La droite de régression passe par le point moyen qui est le centre de gravité 
 
 Données centrées : 
 \begin{align*}
-	x_t &= X_t - \bar{X} &\hat{y_t} = \hat{Y_t} - \bar{Y}\\
-	y_t &= Y_t - \bar{Y} &\hat{x_t} = \hat{X_t} - \bar{Y}\\
+    x_t &= X_t - \bar{X} &\hat{y_t} &= \hat{Y_t} - \bar{Y}\\
+        y_t &= Y_t - \bar{Y} &\hat{x_t} &= \hat{X_t} - \bar{Y}\\
 \end{align*}
 On cherche \(\hat{y} \) :
 \begin{equation*}
 	\hat{Y}_t = \hat{y_t} + \bar{Y} = \hat{\upalpha} + \hat{\upbeta} X_t  = \hat{\upalpha} + \hat{\upbeta} (x_t + \bar{X})	
 \end{equation*} 
-\begin{align*}
+\begin{equation*}
+    \begin{split}
 	\hat{y_t} &= - \bar{Y} + \halpha + \hbeta x_t + \hbeta \bar{X} \\
 	&= - \bar{Y} + \hbeta x_t + \hbeta \bar{X} + (\bar{Y} - \hbeta \bar{X}) \\
 	\hat{y_t} &= \hbeta x_t
-\end{align*}
+    \end{split}
+\end{equation*}
 
 \section{Lois des estimateurs, intervalles de confiance et tests d'hypothèse}
 Comme les estimateurs sont linéaires de \(Y_t\) et comme \(Y_t\) dépend de \(\et\) et que \(\et\) est aléatoire et qu'il obéi a une loi normale, alors les estimateurs sont donc aléatoires et obéissent a une loi normale.
 \begin{align*}
 	& \halpha \sim N \Bigg(\upalpha \; , \sigma_\varepsilon \sqrt{\frac{\sum X^2_t}{n \sum x_t^2 }} \; \Bigg) &\hbeta \sim N \Bigg( \upbeta \; , \sigma_\varepsilon \sqrt{\frac{1}{\sumt x_t^2}} \; \Bigg) \\
 \end{align*}
-\[(n-2) \frac{\hat{\sig}}{\sig} \sim \upchi^2 (n-2)\]
+\begin{equation*}
+    (n-2) \frac{\hat{\sig}}{\sig} \sim \upchi^2 (n-2)
+\end{equation*}
 
 \subsection{Estimation par intervalle de confiance}
 \subsubsection{ Intervalle de confiance de \(\upbeta\)}
-\[\exists \: \upbeta_1, \upbeta_2 \: /  \: 1 - \upalpha = Prob [\upbeta_1 < \upbeta < \upbeta_2]\]
-\[\frac{\frac{\hbeta - \upbeta}{\upsigma_\varepsilon / \sqrt{\sumt x_t^2}}}{\sqrt{(n-2) \cdot \frac{\hat{\sig}}{\sig} \cdot \frac{1}{(n-2)}}} \sim T(n-2) \qquad \Leftrightarrow \qquad \frac{\hbeta - \upbeta}{\hat{\sigma_\varepsilon}} \cdot \sqrt{\sum x_t^2} \sim T(n-2) \]
+\begin{equation*}
+    \exists \: \upbeta_1, \upbeta_2 \: /  \: 1 - \upalpha = Prob [\upbeta_1 < \upbeta < \upbeta_2]
+\end{equation*}
+\begin{equation*}
+   \frac{\frac{\hbeta - \upbeta}{\upsigma_\varepsilon / \sqrt{\sumt x_t^2}}}{\sqrt{(n-2) \cdot \frac{\hat{\sig}}{\sig} \cdot \frac{1}{(n-2)}}} \sim T(n-2) \qquad \Leftrightarrow \qquad \frac{\hbeta - \upbeta}{\hat{\sigma_\varepsilon}} \cdot \sqrt{\sum x_t^2} \sim T(n-2)
+\end{equation*}
 d'où : 
-\begin{align*}
+\begin{equation*}
+    \begin{split}
 	1- \upalpha &= Prob\left[\studn < T(n-2) <\studp\right] \\
-	&= Prob\left[\studn< \frac{\hbeta - \upbeta}{\hat{\sigma_\varepsilon}} \cdot \sqrt{\sum x_t^2}<\studp\right] \\		&= Prob\left[\studn\ \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} < \hbeta - \upbeta <\studp \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} \right] \\
+	&= Prob\left[\studn< \frac{\hbeta - \upbeta}{\hat{\sigma_\varepsilon}} \cdot \sqrt{\sum x_t^2}<\studp\right] \\
+        &= Prob\left[\studn\ \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} < \hbeta - \upbeta <\studp \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} \right] \\
 	&=  Prob\left[\hbeta - \studp\ \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} <\upbeta <\hbeta - \studn \cdot \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}} \right] \\
 	&{\color{red} \boxed{= Prob\left[\upbeta \in \left[\hbeta \pm \bigg\{\begin{tabular}{l} $\studn$ \\ $\studp$ \end{tabular}  \frac{\hat{\sigma_\varepsilon}}{\sqrt{\sum x_t^2}}  \right]\right]}}
-\end{align*}
+    \end{split}
+\end{equation*}
 \subsubsection{Intervalle de confiance de \(\halpha\)}
-\[\exists \: \upalpha_1, \upalpha_2 \: /  \: 1 - \upalpha = Prob [\upalpha_1 < \upalpha < \upalpha_2]\]
-\[\frac{\frac{\halpha - \upalpha}{\upsigma_\varepsilon / \sqrt{\frac{\sum X_t^2}{n \sum x_t^2}}}}{\sqrt{\frac{(n-2)}{n-2} \cdot \frac{\hat{\sig}}{\sig}}} \sim T(n-2) \qquad \Leftrightarrow \qquad \frac{\halpha - \upalpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}} \sim T(n-2) \]
+\begin{equation*}
+\exists \: \upalpha_1, \upalpha_2 \: /  \: 1 - \upalpha = Prob [\upalpha_1 < \upalpha < \upalpha_2]
+\end{equation*}
+\begin{equation*}
+\frac{\frac{\halpha - \upalpha}{\upsigma_\varepsilon / \sqrt{\frac{\sum X_t^2}{n \sum x_t^2}}}}{\sqrt{\frac{(n-2)}{n-2} \cdot \frac{\hat{\sig}}{\sig}}} \sim T(n-2) \qquad \Leftrightarrow \qquad \frac{\halpha - \upalpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}} \sim T(n-2)
+\end{equation*}
 d'où :
-\begin{align*}
+\begin{equation*}
+    \begin{split}
 	1- \upalpha &= Prob\left[\studn < T(n-2) <\studp\right] \\
 	&= Prob\left[\studn <  \frac{\halpha - \upalpha}{\hat{\sigma_\varepsilon}} \cdot \frac{\sqrt{n \sum x_t^2}}{\sqrt{\sum X_t^2}} <\studp\right] \\
 	&= Prob\left[\studn \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}<\halpha - \upalpha<\studp  \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}} \right] \\
 	&= Prob\left[\halpha - \studp \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}<\upalpha<\halpha - \studn  \cdot \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}} \right] \\
 	&{\color{red} \boxed{= Prob\left[\upalpha \in \left[\halpha \pm \bigg\{\begin{tabular}{l} $\studn$ \\ $\studp$ \end{tabular}   \hat{\sigma_\varepsilon} \frac{\sqrt{\sum X_t^2}}{\sqrt{n \sum x_t^2}}  \right]\right]}}
-\end{align*}
+    \end{split}
+\end{equation*}
 \subsubsection{Intervalle de confiance de \(\sig\)}
-\[\exists \: \upsigma_1^2, \upsigma_2^2 \: /  \: 1 - \upalpha = Prob \left[\upsigma_1^2 < \sig <  \upsigma_2^2\right]\]
-\[(n-2) \cdot \frac{\hat{\sig}}{\sig} \sim \upchi^2 (n-2)\]
+\begin{equation*}
+\exists \: \upsigma_1^2, \upsigma_2^2 \: /  \: 1 - \upalpha = Prob \left[\upsigma_1^2 < \sig <  \upsigma_2^2\right]\]
+\[(n-2) \cdot \frac{\hat{\sig}}{\sig} \sim \upchi^2 (n-2)
+\end{equation*}
 d'où
-\begin{align*}
+\begin{equation*}
+    \begin{split}
 	1 - \upalpha &= Prob\left[\chin<\upchi^2 (n-2)<\chip\right] \\
 	&= Prob\left[\chin < (n-2) \cdot \frac{\hat{\sig}}{\sig} < \chip \right] \\
 	&= Prob\left[\frac{\chin}{(n-2) \hat{\sig}}<\frac{1}{\sig}<\frac{\chip}{(n-2) \hat{\sig}}\right] \\
 	&{\color{red} \boxed{= Prob \left[\frac{(n-2) \hat{\sig}}{\chip}<\sig<\frac{(n-2) \hat{\sig}}{\chin}\right]}}
-\end{align*}
+    \end{split}
+\end{equation*}
 
 \subsection{Tests d'hypothèse}
 \subsubsection{Test de $\upbeta$}
-	\textbf{Spécification du test} \\
-	\[H_0 : \upbeta = 0 \quad H_1 : \upbeta \neq 0\]
+\textbf{Spécification du test} \\
+\[H_0 : \upbeta = 0 \quad H_1 : \upbeta \neq 0\]
 	\textbf{Statistique de test}
 	\[\frac{\hbeta - \upbeta}{\hat{\sigma_\varepsilon}} \cdot \sqrt{\sum x_t^2} \sim T(n-2) \]
 	\textbf{Intervalle d'acceptation}
